@@ -99,11 +99,9 @@ while True:
         print("Simple Interest")
         P = get_number("Loan amount: ")
         b = get_number("Annual interest rate [decimal]: ")
-        r = float(b) / 100
         t = get_number("Loan term[Year]: ")
-        e = get_number("Number of months: ")
-        n = float(e) * 12
-        TotalInterest = str(float(P) * float(r) * float(t))
+        n = 12
+        TotalInterest = str(float(P) * float(b) * float(t))
         TotalRepayment = str(float(P) + float(TotalInterest))
         MonthlyPayment = str(float(TotalRepayment) / float(n))
         print("Your Total Interest is: " + str(TotalInterest))
