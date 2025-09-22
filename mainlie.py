@@ -126,9 +126,10 @@ while True:
         P = get_number("Loan amount: ")
         b = get_number("Annual interest rate [decimal]: ")
         r = float(b) / 100
-        e = get_number("Number of months: ")
-        t = float(e) * 12
-        CompoundInterest = float(P) * ((1 + r) ** t)
+        N = get_number("Number of compounding periods per year: ")
+        n = float(N)
+        t = get_number("Time in years: ")
+        CompoundInterest = float(P) * ((1 + r / n) ** (t*n))
         print("Your Compounding Interest is: " + str(CompoundInterest))
 
     elif choice.upper() == "I":
