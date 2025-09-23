@@ -1,0 +1,135 @@
+import sqlite3
+
+DB_NAME = "history.db"
+
+# -----------------------------
+# Database Connection Helper
+# -----------------------------
+def connect():
+    return sqlite3.connect(DB_NAME)
+
+# -----------------------------
+# Simple Interest
+# -----------------------------
+def add_simple_interest(principal, interest_rate, time, earned, amount):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO simple_interest (principal, interest_rate, time, earned, amount)
+        VALUES (?, ?, ?, ?, ?)
+    """, (principal, interest_rate, time, earned, amount))
+    conn.commit()
+    conn.close()
+
+def get_all_simple_interest():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM simple_interest")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+# -----------------------------
+# Compound Interest
+# -----------------------------
+def add_compound_interest(principal, interest_rate, time, compound_frequency, earned, amount):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO compound_interest (principal, interest_rate, time, compound_frequency, earned, amount)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (principal, interest_rate, time, compound_frequency, earned, amount))
+    conn.commit()
+    conn.close()
+
+def get_all_compound_interest():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM compound_interest")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+# -----------------------------
+# Flat Interest Loan
+# -----------------------------
+def add_flat_interest(principal, annual_interest, time, monthly_installment, paid):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO flat_interest (principal, annual_interest, time, monthly_installment, paid)
+        VALUES (?, ?, ?, ?, ?)
+    """, (principal, annual_interest, time, monthly_installment, paid))
+    conn.commit()
+    conn.close()
+
+def get_all_flat_interest():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM flat_interest")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+# -----------------------------
+# Amortization Loan
+# -----------------------------
+def add_amortization(principal, annual_interest, time, monthly_installment, paid):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO amortization (principal, annual_interest, time, monthly_installment, paid)
+        VALUES (?, ?, ?, ?, ?)
+    """, (principal, annual_interest, time, monthly_installment, paid))
+    conn.commit()
+    conn.close()
+
+def get_all_amortization():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM amortization")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+# -----------------------------
+# Lump Sum Investment
+# -----------------------------
+def add_lump_investment(principal, annual_interest, time, compound_frequency, earned, future_amount):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO lump_investment (principal, annual_interest, time, compound_frequency, earned, future_amount)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (principal, annual_interest, time, compound_frequency, earned, future_amount))
+    conn.commit()
+    conn.close()
+
+def get_all_lump_investment():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM lump_investment")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+# -----------------------------
+# Systematic Investment (SIP)
+# -----------------------------
+def add_systematic_investment(monthly_investment, annual_interest, time, compound_frequency, earned, future_amount):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO systematic_investment (monthly_investment, annual_interest, time, compound_frequency, earned, future_amount)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (monthly_investment, annual_interest, time, compound_frequency, earned, future_amount))
+    conn.commit()
+    conn.close()
+
+def get_all_systematic_investment():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM systematic_investment")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
