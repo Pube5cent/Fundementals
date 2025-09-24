@@ -46,8 +46,9 @@ while True:
     print("E. Power")
     print("F. Percentage Converter")
     print("G. Simple Interest")
-    print("H. Morgage calculator")
-    print("I. Exit")
+    print("H. Compound Interest")
+    print("I. Morgage calculator")
+    print("J. Exit")
 
  #ask user which feature they wanna use
     choice = input("Which would you like to proceed with? : ")
@@ -121,17 +122,29 @@ while True:
     
     elif choice.upper() == "H":
         clear_console()
-        print("Morgage calculator")
+        print("Compound Interest")
         P = get_number("Loan amount: ")
-        r = get_number("Monthly interest rate: ")
-        n = get_number("Total number of months: " )
-        EMITop = float(P) * float(r) * (1 + float(r)) ** float(n)
-        EMIBottom = (1 + float(r))**float(n) - 1
-        EMI = EMITop / EMIBottom
-        print("Your Total Monthly payment is: " + str(EMI))
+        b = get_number("Annual interest rate [decimal]: ")
+        r = float(b) / 100
+        N = get_number("Number of compounding periods per year: ")
+        n = float(N)
+        t = get_number("Time in years: ")
+        CompoundInterest = float(P) * ((1 + r / n) ** (t*n))
+        print("Your Compounding Interest is: " + str(CompoundInterest))
+
+    elif choice.upper() == "I":
+            clear_console()
+            print("Morgage calculator")
+            P = get_number("Loan amount: ")
+            r = get_number("Monthly interest rate: ")
+            n = get_number("Total number of months: " )
+            EMITop = float(P) * float(r) * (1 + float(r)) ** float(n)
+            EMIBottom = (1 + float(r))**float(n) - 1
+            EMI = EMITop / EMIBottom
+            print("Your Total Monthly payment is: " + str(EMI))
 
     # quitters module
-    elif choice.upper() == "I":
+    elif choice.upper() == "J":
             print("Have a nice day")
             quit()
     # if the user choses something out of bound, dis prompt {not a valid command or something idk}d
