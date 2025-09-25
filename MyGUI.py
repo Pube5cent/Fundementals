@@ -1,5 +1,8 @@
+from models import connect
 import customtkinter as ctk
 from customtkinter import CTkFrame
+
+connect()
 
 # ------------------------------ Functions ----------------------------------
 
