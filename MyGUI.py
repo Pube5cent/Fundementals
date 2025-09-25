@@ -104,7 +104,7 @@ def main_app():
     label = create_title(homepage, "Financial Buddy💸")
     label.pack(padx=20, pady=30)
 
-    button1 = create_button(homepage, "Interest & Compound Interest", lambda: option1.tkraise())
+    button1 = create_button(homepage, "Simple & Compound Interest", lambda: option1.tkraise())
     button1.pack(padx=20, pady=30)
 
     button2 = create_button(homepage, "Loan & Mortgage", lambda: option2.tkraise())
@@ -183,7 +183,7 @@ def main_app():
             FV = SI + P
             result_SI.configure(text=f"Interest earned = {SI:.2f}\n Future Value = {FV:.2f}")
         except ValueError:
-            result_SI.configure(text="Enter valid numbers")
+            result_SI.configure(text="⚠️Enter valid numbers⚠️")
 
     calc_button = create_button(simple_interest, "Calculate", calculate_simple_interest)
     calc_button.pack(padx=20, pady=20)
@@ -219,7 +219,7 @@ def main_app():
             CI = FV - P
             result_CI.configure(text=f"Interest earned = {CI:.2f}\n Future Value = {FV:.2f}")
         except ValueError:
-            result_CI.configure(text="Enter valid numbers")
+            result_CI.configure(text="⚠️Enter valid numbers⚠️")
         except ZeroDivisionError:
             result_CI.configure(text="Cannot divide by 0")
 
@@ -254,7 +254,7 @@ def main_app():
             Monthly_installment = Total_repayment / (12 * T)
             result_FI.configure(text=f"Monthly Installment = {Monthly_installment:.2f}\n Interest Paid = {FI:.2f}")
         except ValueError:
-            result_FI.configure(text="Enter valid numbers")
+            result_FI.configure(text="⚠️Enter valid numbers⚠️")
 
     calc_button = create_button(flat_interest, "Calculate", calculate_flat_interest_loan)
     calc_button.pack(padx=20, pady=20)
@@ -289,7 +289,7 @@ def main_app():
             Interest_paid = Total_repayment - P
             result_A.configure(text=f"Monthly Installment = {EMI:.2f}\n Interest Paid = {Interest_paid:.2f}")
         except ValueError:
-            result_A.configure(text="Enter valid numbers")
+            result_A.configure(text="⚠️Enter valid numbers⚠️")
 
     calc_button = create_button(amortization, "Calculate", calculate_amortization)
     calc_button.pack(padx=20, pady=20)
@@ -325,7 +325,7 @@ def main_app():
             Interest_earned = FV - P
             result_LS.configure(text=f"Future Value = {FV:.2f}\n Interest Earned = {Interest_earned:.2f}")
         except ValueError:
-            result_LS.configure(text="Enter valid numbers")
+            result_LS.configure(text="⚠️Enter valid numbers⚠️")
 
     calc_button = create_button(lump_sum, "Calculate", calculate_lump_sum)
     calc_button.pack(padx=20, pady=20)
@@ -363,7 +363,7 @@ def main_app():
             Interest_earned = FV - (P * T * 12)
             result_SIP.configure(text=f"Future Value = {FV:.2f}\n Interest Earned = {Interest_earned:.2f}")
         except ValueError:
-            result_SIP.configure(text="Enter valid numbers")
+            result_SIP.configure(text="⚠️Enter valid numbers⚠️")
 
     calc_button = create_button(SIP_investment, "Calculate", calculate_SIP)
     calc_button.pack(padx=20, pady=20)

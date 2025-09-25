@@ -2,15 +2,9 @@ import sqlite3
 
 DB_NAME = "history.db"
 
-# -----------------------------
-# Database Connection Helper
-# -----------------------------
 def connect():
     return sqlite3.connect(DB_NAME)
 
-# -----------------------------
-# Simple Interest
-# -----------------------------
 def add_simple_interest(principal, interest_rate, time, earned, amount):
     conn = connect()
     cursor = conn.cursor()
@@ -29,9 +23,6 @@ def get_all_simple_interest():
     conn.close()
     return rows
 
-# -----------------------------
-# Compound Interest
-# -----------------------------
 def add_compound_interest(principal, interest_rate, time, compound_frequency, earned, amount):
     conn = connect()
     cursor = conn.cursor()
@@ -50,9 +41,6 @@ def get_all_compound_interest():
     conn.close()
     return rows
 
-# -----------------------------
-# Flat Interest Loan
-# -----------------------------
 def add_flat_interest(principal, annual_interest, time, monthly_installment, paid):
     conn = connect()
     cursor = conn.cursor()
@@ -71,9 +59,6 @@ def get_all_flat_interest():
     conn.close()
     return rows
 
-# -----------------------------
-# Amortization Loan
-# -----------------------------
 def add_amortization(principal, annual_interest, time, monthly_installment, paid):
     conn = connect()
     cursor = conn.cursor()
@@ -92,9 +77,6 @@ def get_all_amortization():
     conn.close()
     return rows
 
-# -----------------------------
-# Lump Sum Investment
-# -----------------------------
 def add_lump_investment(principal, annual_interest, time, compound_frequency, earned, future_amount):
     conn = connect()
     cursor = conn.cursor()
@@ -113,9 +95,6 @@ def get_all_lump_investment():
     conn.close()
     return rows
 
-# -----------------------------
-# Systematic Investment (SIP)
-# -----------------------------
 def add_systematic_investment(monthly_investment, annual_interest, time, compound_frequency, earned, future_amount):
     conn = connect()
     cursor = conn.cursor()
