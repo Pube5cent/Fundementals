@@ -98,7 +98,13 @@ VALUES (?, ?, ?, ?, ?)
 cursor.execute("""
 INSERT INTO amortization (principal, annual_interest, time, monthly_installment, paid) 
 VALUES (?, ?, ?, ?, ?)
-""", (8000, 7.0, 3, 246.60, 8877.60))
+""",  (
+    round(principal, 2),
+    round(annual_interest, 2),
+    time,
+    round(monthly_installment, 2),
+    round(paid, 2)
+))
 
 # Lump Sum Investment: 10000 at 5% for 5 years, yearly compounding
 cursor.execute("""
