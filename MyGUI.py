@@ -1,5 +1,8 @@
 import customtkinter as ctk
 from customtkinter import CTkFrame
+from database import init_db
+init_db()
+from models import add_amortization, add_compound_interest, add_flat_interest, add_lump_investment, add_simple_interest, add_systematic_investment
 
 # ------------------------------ Functions ----------------------------------
 
@@ -82,6 +85,21 @@ def main_app():
     app.grid_rowconfigure(0, weight=1)
     app.grid_columnconfigure(0, weight=1)
 
+#---------------------------History Window Function-------------------
+    def open_new_window():
+        history_win = ctk.CTkToplevel(app)
+        history_win.title("Financial Buddy💸 - History")
+        history_win.geometry("500x650")
+        history_win.configure(fg_color="#007acc")
+
+        label = create_title(history_win, "History 📖")
+        label.pack(padx=20, pady=20)
+
+
+
+        close_btn = ctk.CTkButton(history_win, text="Close", command=history_win.destroy)
+        close_btn.pack(pady=10)
+
 #-------------------------Pages---------------------------
     homepage = CTkFrame(app)
     option1 = CTkFrame(app)
@@ -102,16 +120,19 @@ def main_app():
 
 #-----------------------Home page--------------------------
     label = create_title(homepage, "Financial Buddy💸")
-    label.pack(padx=20, pady=30)
+    label.pack(padx=20, pady=20)
 
     button1 = create_button(homepage, "Simple & Compound Interest", lambda: option1.tkraise())
-    button1.pack(padx=20, pady=30)
+    button1.pack(padx=20, pady=20)
 
     button2 = create_button(homepage, "Loan & Mortgage", lambda: option2.tkraise())
-    button2.pack(padx=20, pady=30)
+    button2.pack(padx=20, pady=20)
 
     button3 = create_button(homepage, "Savings and Investment", lambda: option3.tkraise())
-    button3.pack(padx=20, pady=30)
+    button3.pack(padx=20, pady=20)
+
+    history_button = create_button(homepage, "History 📖", open_new_window)
+    history_button.pack(padx=20, pady=20)
 
     quote = create_quote(homepage, "“Little drops of water make a\n mighty ocean”")
     quote.place(x=250, y=550, anchor="center")
@@ -181,7 +202,8 @@ def main_app():
             T = float(Time_SI.get())
             SI = P * R * T
             FV = SI + P
-            result_SI.configure(text=f"Interest earned = {SI:.2f}\n Future Value = {FV:.2f}")
+            result_SI.configure(text=f"Interest earned = RM{SI:.2f}\n Future Value = RM{FV:.2f}")
+            add_simple_interest(P, R, T, SI, FV)
         except ValueError:
             result_SI.configure(text="⚠️Enter valid numbers⚠️")
 
@@ -217,7 +239,8 @@ def main_app():
             N = float(Compound_CI.get())
             FV = P * ( 1 + (R / N)) ** (N * T)
             CI = FV - P
-            result_CI.configure(text=f"Interest earned = {CI:.2f}\n Future Value = {FV:.2f}")
+            result_CI.configure(text=f"Interest earned = RM{CI:.2f}\n Future Value = RM{FV:.2f}")
+            add_compound_interest(P, R, T, N, CI, FV)
         except ValueError:
             result_CI.configure(text="⚠️Enter valid numbers⚠️")
         except ZeroDivisionError:
@@ -251,8 +274,9 @@ def main_app():
             T = float(Time_FI.get())
             FI = P * R * T
             Total_repayment = FI + P
-            Monthly_installment = Total_repayment / (12 * T)
-            result_FI.configure(text=f"Monthly Installment = {Monthly_installment:.2f}\n Interest Paid = {FI:.2f}")
+            Monthly_installment_FI = Total_repayment / (12 * T)
+            result_FI.configure(text=f"Monthly Installment = RM{Monthly_installment_FI:.2f}\n Interest Paid = RM{FI:.2f}")
+            add_flat_interest(P, R, T, Monthly_installment_FI, FI)
         except ValueError:
             result_FI.configure(text="⚠️Enter valid numbers⚠️")
 
@@ -287,7 +311,8 @@ def main_app():
             EMI = (P * r * (1 + r)**(n)) / ((1 + r)**n - 1)
             Total_repayment = EMI * n
             Interest_paid = Total_repayment - P
-            result_A.configure(text=f"Monthly Installment = {EMI:.2f}\n Interest Paid = {Interest_paid:.2f}")
+            result_A.configure(text=f"Monthly Installment = RM{EMI:.2f}\n Interest Paid = RM{Interest_paid:.2f}")
+            add_amortization(P, R, T, EMI, Interest_paid)
         except ValueError:
             result_A.configure(text="⚠️Enter valid numbers⚠️")
 
@@ -323,7 +348,8 @@ def main_app():
             n = float(Compound_LS.get())
             FV = P * (1 + R/n)**(n*T)
             Interest_earned = FV - P
-            result_LS.configure(text=f"Future Value = {FV:.2f}\n Interest Earned = {Interest_earned:.2f}")
+            result_LS.configure(text=f"Future Value = RM{FV:.2f}\n Interest Earned = RM{Interest_earned:.2f}")
+            add_lump_investment(P, R, T, n, Interest_earned, FV)
         except ValueError:
             result_LS.configure(text="⚠️Enter valid numbers⚠️")
 
@@ -350,18 +376,17 @@ def main_app():
     Time_SIP = create_input(SIP_investment, "Time (years)")
     Time_SIP.pack(padx=20, pady=15)
 
-    Compound_SIP = create_input(SIP_investment, "Compound Frequency / year", 19)
-    Compound_SIP.pack(padx=20, pady=15)
-
     def calculate_SIP():
         try:
             P = float(Monthly_Investment_SIP.get())
             R = float(Interest_SIP.get())
             T = float(Time_SIP.get())
-            n = float(Compound_SIP.get())
-            FV = P * (( (1 + R/n)**(n * T) - 1 ) / (R / n)) * (1 + R/n)
-            Interest_earned = FV - (P * T * 12)
-            result_SIP.configure(text=f"Future Value = {FV:.2f}\n Interest Earned = {Interest_earned:.2f}")
+            r = R/12
+            N = int(T*12)
+            FV = P * (((1 + r) ** N - 1) / r) * (1 + r)
+            Interest_earned = FV - (P * N)
+            result_SIP.configure(text=f"Future Value = RM{FV:.2f}\n Interest Earned = RM{Interest_earned:.2f}")
+            add_systematic_investment(P, R, T, Interest_earned, FV)
         except ValueError:
             result_SIP.configure(text="⚠️Enter valid numbers⚠️")
 
@@ -371,7 +396,7 @@ def main_app():
     result_SIP = create_text(SIP_investment, "Future Value =\n Interest Earned =")
     result_SIP.pack(padx=20, pady=30)
 
-    back_button = create_back_button(SIP_investment, "⬅️", option3, (Monthly_Investment_SIP, Interest_SIP, Time_SIP, Compound_SIP))
+    back_button = create_back_button(SIP_investment, "⬅️", option3, (Monthly_Investment_SIP, Interest_SIP, Time_SIP))
 
 #---------------------App Running------------------------
     homepage.tkraise()

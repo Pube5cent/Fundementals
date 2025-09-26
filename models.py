@@ -1,9 +1,10 @@
 import sqlite3
+from database import db_path
 
 DB_NAME = "history.db"
 
 def connect():
-    return sqlite3.connect(DB_NAME)
+    return sqlite3.connect(db_path)
 
 def add_simple_interest(principal, interest_rate, time, earned, amount):
     conn = connect()
@@ -95,13 +96,13 @@ def get_all_lump_investment():
     conn.close()
     return rows
 
-def add_systematic_investment(monthly_investment, annual_interest, time, compound_frequency, earned, future_amount):
+def add_systematic_investment(monthly_investment, annual_interest, time, earned, future_amount):
     conn = connect()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO systematic_investment (monthly_investment, annual_interest, time, compound_frequency, earned, future_amount)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (monthly_investment, annual_interest, time, compound_frequency, earned, future_amount))
+        INSERT INTO systematic_investment (monthly_investment, annual_interest, time, earned, future_amount)
+        VALUES (?, ?, ?, ?, ?)
+    """, (monthly_investment, annual_interest, time, earned, future_amount))
     conn.commit()
     conn.close()
 
