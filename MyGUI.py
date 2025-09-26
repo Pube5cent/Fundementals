@@ -1,3 +1,4 @@
+
 import customtkinter as ctk
 from customtkinter import CTkFrame
 from database import init_db

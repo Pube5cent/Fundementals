@@ -11,7 +11,7 @@ def add_simple_interest(principal, interest_rate, time, earned, amount):
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO simple_interest (principal, interest_rate, time, earned, amount)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (ROUND(?, 2), ROUND(?, 2), ?, ROUND(?, 2), ROUND(?, 2))
     """, (principal, interest_rate, time, earned, amount))
     conn.commit()
     conn.close()
@@ -29,7 +29,7 @@ def add_compound_interest(principal, interest_rate, time, compound_frequency, ea
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO compound_interest (principal, interest_rate, time, compound_frequency, earned, amount)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (ROUND(?, 2), ROUND(?, 2), ?, ?, ROUND(?, 2), ROUND(?, 2))
     """, (principal, interest_rate, time, compound_frequency, earned, amount))
     conn.commit()
     conn.close()
@@ -47,7 +47,7 @@ def add_flat_interest(principal, annual_interest, time, monthly_installment, pai
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO flat_interest (principal, annual_interest, time, monthly_installment, paid)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (ROUND(?, 2), ROUND(?, 2), ?, ROUND(?, 2), ROUND(?, 2))
     """, (principal, annual_interest, time, monthly_installment, paid))
     conn.commit()
     conn.close()
@@ -65,7 +65,7 @@ def add_amortization(principal, annual_interest, time, monthly_installment, paid
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO amortization (principal, annual_interest, time, monthly_installment, paid)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (ROUND(?, 2), ROUND(?, 2), ?, ROUND(?, 2), ROUND(?, 2))
     """, (principal, annual_interest, time, monthly_installment, paid))
     conn.commit()
     conn.close()
@@ -83,7 +83,7 @@ def add_lump_investment(principal, annual_interest, time, compound_frequency, ea
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO lump_investment (principal, annual_interest, time, compound_frequency, earned, future_amount)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (ROUND(?, 2), ROUND(?, 2), ?, ?, ROUND(?, 2), ROUND(?, 2))
     """, (principal, annual_interest, time, compound_frequency, earned, future_amount))
     conn.commit()
     conn.close()
@@ -101,7 +101,7 @@ def add_systematic_investment(monthly_investment, annual_interest, time, earned,
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO systematic_investment (monthly_investment, annual_interest, time, earned, future_amount)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (ROUND(?, 2), ROUND(?, 2), ?, ROUND(?, 2), ROUND(?, 2))
     """, (monthly_investment, annual_interest, time, earned, future_amount))
     conn.commit()
     conn.close()
