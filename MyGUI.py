@@ -3,6 +3,7 @@ from customtkinter import CTkFrame
 from database import init_db
 init_db()
 from models import add_amortization, add_compound_interest, add_flat_interest, add_lump_investment, add_simple_interest, add_systematic_investment
+from models import get_all_amortization, get_all_compound_interest, get_all_flat_interest, get_all_lump_investment, get_all_simple_interest, get_all_systematic_investment
 
 # ------------------------------ Functions ----------------------------------
 
@@ -64,7 +65,7 @@ def create_text(parent, text): #text creation function
         text_color="#cce0ff",
     )
 
-def create_input(parent, placeholder, font=20):
+def create_input(parent, placeholder, font=20): #input creation function
     return ctk.CTkEntry(
         parent,
         placeholder_text=placeholder,
@@ -86,7 +87,7 @@ def main_app():
     app.grid_columnconfigure(0, weight=1)
 
 #---------------------------History Window Function-------------------
-    def open_new_window():
+    def open_history_window():
         history_win = ctk.CTkToplevel(app)
         history_win.title("Financial Buddy💸 - History")
         history_win.geometry("500x650")
@@ -95,10 +96,50 @@ def main_app():
         label = create_title(history_win, "History 📖")
         label.pack(padx=20, pady=20)
 
+        list_frame = ctk.CTkFrame(history_win, width=400, height=400, fg_color="#00509e", corner_radius=15)
+        list_frame.pack(padx=20, pady=20)
 
+        textbox = ctk.CTkTextbox(list_frame, width=400, height=400, fg_color="#003d73", text_color="white")
+        textbox.pack(expand=True, fill="both", padx=10, pady=10)
 
-        close_btn = ctk.CTkButton(history_win, text="Close", command=history_win.destroy)
-        close_btn.pack(pady=10)
+        tables = {
+            "Simple Interest": (
+                get_all_simple_interest,
+                ["Principal", "Interest Rate", "Time", "Earned", "Amount"]
+            ),
+            "Compound Interest": (
+                get_all_compound_interest,
+                ["Principal", "Interest Rate", "Time", "Frequency", "Earned", "Amount"]
+            ),
+            "Flat Interest": (
+                get_all_flat_interest,
+                ["Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
+            ),
+            "Amortization": (
+                get_all_amortization,
+                ["Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
+            ),
+            "Lump Investment": (
+                get_all_lump_investment,
+                ["Principal", "Annual Interest", "Time", "Frequency", "Earned", "Future Amount"]
+            ),
+            "Systematic Investment": (
+                get_all_systematic_investment,
+                ["Monthly Investment", "Annual Interest", "Time", "Earned", "Future Amount"]
+            ),
+        }
+
+        for name, (func, columns) in tables.items():
+            rows = func()
+            textbox.insert("end", f"\n=== {name} ===\n")
+
+            if rows:
+                for idx, row in enumerate(rows, start=1):
+                    # Skip the first column (ID) by slicing row[1:]
+                    formatted = ", ".join(f"{col}: {val}" for col, val in zip(columns[1:], row[1:]))
+                    textbox.insert("end", f"{idx}. {formatted}\n", "row")
+            else:
+                textbox.insert("end", "No records found.\n", "no_records")
 
 #-------------------------Pages---------------------------
     homepage = CTkFrame(app)
@@ -131,7 +172,7 @@ def main_app():
     button3 = create_button(homepage, "Savings and Investment", lambda: option3.tkraise())
     button3.pack(padx=20, pady=20)
 
-    history_button = create_button(homepage, "History 📖", open_new_window)
+    history_button = create_button(homepage, "History 📖", open_history_window)
     history_button.pack(padx=20, pady=20)
 
     quote = create_quote(homepage, "“Little drops of water make a\n mighty ocean”")
