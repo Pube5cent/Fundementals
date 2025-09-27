@@ -6,6 +6,7 @@ init_db()
 from models import add_amortization, add_compound_interest, add_flat_interest, add_lump_investment, add_simple_interest, add_systematic_investment
 from models import get_all_amortization, get_all_compound_interest, get_all_flat_interest, get_all_lump_investment, get_all_simple_interest, get_all_systematic_investment
 
+
 # ------------------------------ Functions ----------------------------------
 
 def create_button(parent, text, command): #button creation function
