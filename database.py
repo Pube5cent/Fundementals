@@ -15,11 +15,11 @@ def init_db():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS simple_interest (
         simple_interest_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        principal DECIMAL NOT NULL,
-        interest_rate DECIMAL NOT NULL,
+        principal REAL NOT NULL CHECK (ROUND(principal, 2) = principal),
+        interest_rate REAL NOT NULL CHECK (ROUND(interest_rate, 2) = interest_rate),
         time INTEGER NOT NULL,
-        earned DECIMAL NOT NULL,
-        AMOUNT DECIMAL NOT NULL
+        earned REAL NOT NULL CHECK (ROUND(earned, 2) = earned),
+        AMOUNT REAL NOT NULL CHECK (ROUND(amount, 2) = amount)
     );
     """)
 

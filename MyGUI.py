@@ -5,6 +5,7 @@ init_db()
 from models import add_amortization, add_compound_interest, add_flat_interest, add_lump_investment, add_simple_interest, add_systematic_investment
 from models import get_all_amortization, get_all_compound_interest, get_all_flat_interest, get_all_lump_investment, get_all_simple_interest, get_all_systematic_investment
 
+
 # ------------------------------ Functions ----------------------------------
 
 def create_button(parent, text, command): #button creation function
@@ -75,6 +76,20 @@ def create_input(parent, placeholder, font=20): #input creation function
         width=300,
         justify="center"
     )
+
+def show_latest_history(frame, fetch_func, columns, x=250, y=600):
+    rows = fetch_func()
+    if rows:
+        latest = rows[-1]
+        formatted = "\n".join(f"{col}: {val}" for col, val in zip(columns[1:], latest[1:]))
+        label = create_text(frame, f"Latest Entry:\n{formatted}")
+    else:
+        label = create_text(frame, "Latest Entry:\nNo records found.")
+
+    label.place(x=x, y=y, anchor="center")
+    return label
+
+
 
 #--------------------------Main App-----------------------
 def main_app():
@@ -254,6 +269,15 @@ def main_app():
     result_SI = create_text(simple_interest, "Future Value =\n Interest earned =")
     result_SI.pack(padx=20, pady=30)
 
+    # Show latest simple interest history
+    latest_SI = show_latest_history(
+        simple_interest,
+        get_all_simple_interest,
+        ["Principal", "Interest Rate", "Time", "Earned", "Amount"]  
+    )
+
+    latest_SI.place(x=250, y=530)
+
     back_button = create_back_button(simple_interest, "⬅️", option1, (Principal_SI, Interest_SI, Time_SI))
 
 #----------------------Compound Interest Calculation-----------------
@@ -293,6 +317,14 @@ def main_app():
     result_CI = create_text(compound_interest, "Future Value =\n Interest earned =")
     result_CI.pack(padx=20, pady=30)
 
+    latest_CI = show_latest_history(
+    compound_interest,
+    get_all_compound_interest,
+    ["Principal", "Interest Rate", "Time", "Frequency", "Earned", "Amount"]
+    )
+
+    latest_CI.place(x=250, y=580)
+
     back_button = create_back_button(compound_interest, "⬅️", option1, (Principal_CI, Interest_CI, Time_CI, Compound_CI))
 
 #-----------------------Loan Flat Interest Calculation---------------------
@@ -326,6 +358,14 @@ def main_app():
 
     result_FI = create_text(flat_interest, "Monthly Installment =\n Interest Paid =")
     result_FI.pack(padx=20, pady=30)
+
+    latest_FI = show_latest_history(
+        flat_interest,
+        get_all_flat_interest,
+        ["Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
+    )
+
+    latest_FI.place(x=250, y=520)
 
     back_button = create_back_button(flat_interest, "⬅️", option2, (Principal_FI, Interest_FI, Time_FI))
 
@@ -362,6 +402,13 @@ def main_app():
 
     result_A = create_text(amortization, "Monthly Installment =\n Interest Paid =")
     result_A.pack(padx=20, pady=30)
+
+    latest_A = show_latest_history(
+        amortization,
+        get_all_amortization,
+        ["Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
+    )
+    latest_A.place(x=250, y=520)
 
     back_button = create_back_button(amortization, "⬅️", option2, (Principal_A, Interest_A, Time_A))
 
@@ -400,6 +447,13 @@ def main_app():
     result_LS = create_text(lump_sum, "Future Value =\n Interest Earned =")
     result_LS.pack(padx=20, pady=30)
 
+    latest_LS = show_latest_history(
+        lump_sum,
+        get_all_lump_investment,
+        ["Principal", "Annual Interest", "Time", "Frequency", "Earned", "Future Amount"]
+    )
+    latest_LS.place(x=250, y=580)
+
     back_button = create_back_button(lump_sum, "⬅️", option3, (Principal_LS, Interest_LS, Time_LS, Compound_LS))
 
 #-----------------------SIP Investment---------------------
@@ -436,6 +490,13 @@ def main_app():
 
     result_SIP = create_text(SIP_investment, "Future Value =\n Interest Earned =")
     result_SIP.pack(padx=20, pady=30)
+
+    latest_SIP = show_latest_history(
+        SIP_investment,
+        get_all_systematic_investment,
+        ["Monthly Investment", "Annual Interest", "Time", "Earned", "Future Amount"]
+    )
+    latest_SIP.place(x=250, y=530)
 
     back_button = create_back_button(SIP_investment, "⬅️", option3, (Monthly_Investment_SIP, Interest_SIP, Time_SIP))
 
