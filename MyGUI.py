@@ -120,27 +120,27 @@ def main_app():
         tables = {
             "Simple Interest": (
                 get_all_simple_interest,
-                ["Principal", "Interest Rate", "Time", "Earned", "Amount"]
+                ["ID", "Principal", "Interest Rate", "Time", "Earned", "Amount"]
             ),
             "Compound Interest": (
                 get_all_compound_interest,
-                ["Principal", "Interest Rate", "Time", "Frequency", "Earned", "Amount"]
+                ["ID", "Principal", "Interest Rate", "Time", "Frequency", "Earned", "Amount"]
             ),
             "Flat Interest": (
                 get_all_flat_interest,
-                ["Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
+                ["ID", "Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
             ),
             "Amortization": (
                 get_all_amortization,
-                ["Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
+                ["ID", "Principal", "Annual Interest", "Time", "Monthly Installment", "Paid"]
             ),
             "Lump Investment": (
                 get_all_lump_investment,
-                ["Principal", "Annual Interest", "Time", "Frequency", "Earned", "Future Amount"]
+                ["ID", "Principal", "Annual Interest", "Time", "Frequency", "Earned", "Future Amount"]
             ),
             "Systematic Investment": (
                 get_all_systematic_investment,
-                ["Monthly Investment", "Annual Interest", "Time", "Earned", "Future Amount"]
+                ["ID", "Monthly Investment", "Annual Interest", "Time", "Earned", "Future Amount"]
             ),
         }
 
