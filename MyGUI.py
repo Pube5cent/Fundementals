@@ -2,7 +2,9 @@ import customtkinter as ctk
 from customtkinter import CTkFrame
 from database import init_db
 init_db()
+#below are the functions to store inputs into the database
 from models import add_amortization, add_compound_interest, add_flat_interest, add_lump_investment, add_simple_interest, add_systematic_investment
+#below are the functions to display the info stored in the database
 from models import get_all_amortization, get_all_compound_interest, get_all_flat_interest, get_all_lump_investment, get_all_simple_interest, get_all_systematic_investment
 
 
@@ -130,7 +132,7 @@ def main_app():
                 ["ID", "Monthly Investment", "Annual Interest", "Time", "\nInterest Earned", "Future Amount"]
             ),
         }
-
+        
         for name, (func, columns) in tables.items():
             rows = func()
             textbox.insert("end", f"\n=== {name} ===\n")
@@ -395,6 +397,8 @@ def main_app():
             add_lump_investment(P, R, T, n, Interest_earned, FV)
         except ValueError:
             result_LS.configure(text="⚠️Enter valid numbers⚠️")
+        except ZeroDivisionError:
+            result_LS.configure(text="Cannot divide by 0")
 
     calc_button = create_button(lump_sum, "Calculate", calculate_lump_sum)
     calc_button.pack(padx=20, pady=20)
